@@ -159,7 +159,7 @@ class FaceswapGANModel():
     
     @staticmethod
     def define_variables(netG):
-        distorted_input = netG.inputs[0]
+        distorted_input = netG.inputs[0] # warped
         fake_output = netG.outputs[-1]
         alpha = Lambda(lambda x: x[:,:,:, :1])(fake_output)
         bgr = Lambda(lambda x: x[:,:,:, 1:])(fake_output)
@@ -192,7 +192,7 @@ class FaceswapGANModel():
                                             self.mask_eyes_B, self.netGB.outputs,
                                             **loss_weights)
 
-        # Edge loss
+        # Edge loss # todo
         loss_edge_GA = edge_loss(self.real_A, self.fake_A, self.mask_eyes_A, **loss_weights)
         loss_edge_GB = edge_loss(self.real_B, self.fake_B, self.mask_eyes_B, **loss_weights)
 

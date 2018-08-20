@@ -49,7 +49,7 @@ def normalization(inp, norm='none', group='16'):
     elif norm == 'groupnorm':
         x = GroupNormalization(group=16)(x)
     elif norm == 'instancenorm':
-        x = InstanceNormalization()(x)
+        x = InstanceNormalization()(x) # todo
     else:
         x = x
     return x
@@ -64,7 +64,7 @@ def conv_block(input_tensor, f, use_norm=False, strides=2, w_l2=w_l2, norm='none
 
 def conv_block_d(input_tensor, f, use_norm=False, w_l2=w_l2, norm='none'):
     x = input_tensor
-    x = Conv2D(f, kernel_size=4, strides=2, kernel_regularizer=regularizers.l2(w_l2), 
+    x = Conv2D(f, kernel_size=4, strides=2, kernel_regularizer=regularizers.l2(w_l2),  # todo
                kernel_initializer=conv_init, use_bias=False, padding="same")(x)
     x = LeakyReLU(alpha=0.2)(x)   
     x = normalization(x, norm, f) if use_norm else x

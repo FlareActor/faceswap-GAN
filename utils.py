@@ -1,5 +1,5 @@
-from IPython.display import display
-from PIL import Image
+# from IPython.display import display
+# from PIL import Image
 import cv2
 import numpy as np
 import os
@@ -17,7 +17,7 @@ def load_images(image_paths, convert=None):
         all_images[i] = image
     return all_images
 
-def get_transpose_axes( n ):
+def get_transpose_axes(n):
     if n % 2 == 0:
         y_axes = list(range(1, n-1, 2))
         x_axes = list(range(0, n-1, 2))
@@ -53,7 +53,8 @@ def showG(test_A, test_B, path_A, path_B, batchSize):
     figure = np.clip((figure + 1) * 255 / 2, 0, 255).astype('uint8')
     figure = cv2.cvtColor(figure, cv2.COLOR_BGR2RGB)
 
-    display(Image.fromarray(figure))
+    # display(Image.fromarray(figure))
+    return figure
     
 def showG_mask(test_A, test_B, path_A, path_B, batchSize):
     figure_A = np.stack([
@@ -73,7 +74,8 @@ def showG_mask(test_A, test_B, path_A, path_B, batchSize):
     figure = np.clip((figure + 1) * 255 / 2, 0, 255).astype('uint8')
     figure = cv2.cvtColor(figure, cv2.COLOR_BGR2RGB)
 
-    display(Image.fromarray(figure))
+    # display(Image.fromarray(figure))
+    return figure
     
 def showG_eyes(test_A, test_B, bm_eyes_A, bm_eyes_B, batchSize):
     figure_A = np.stack([
@@ -93,4 +95,5 @@ def showG_eyes(test_A, test_B, bm_eyes_A, bm_eyes_B, batchSize):
     figure = np.clip(figure * 255, 0, 255).astype('uint8')
     figure = cv2.cvtColor(figure, cv2.COLOR_BGR2RGB)
 
-    display(Image.fromarray(figure))
+    # display(Image.fromarray(figure))
+    return figure

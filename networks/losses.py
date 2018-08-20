@@ -32,7 +32,8 @@ def cyclic_loss(netG1, netG2, real1):
     loss = calc_loss(cyclic1, real1, loss='l1')
     return loss
 
-def adversarial_loss(netD, real, fake_abgr, distorted, gan_training="mixup_LSGAN", **weights):   
+def adversarial_loss(netD, real, fake_abgr, distorted, gan_training="mixup_LSGAN", **weights):
+    # todo
     alpha = Lambda(lambda x: x[:,:,:, :1])(fake_abgr)
     fake_bgr = Lambda(lambda x: x[:,:,:, 1:])(fake_abgr)
     fake = alpha * fake_bgr + (1-alpha) * distorted
@@ -67,6 +68,7 @@ def adversarial_loss(netD, real, fake_abgr, distorted, gan_training="mixup_LSGAN
     return loss_D, loss_G
 
 def reconstruction_loss(real, fake_abgr, mask_eyes, model_outputs, **weights):
+    # todo 为什么不用masked
     alpha = Lambda(lambda x: x[:,:,:, :1])(fake_abgr)
     fake_bgr = Lambda(lambda x: x[:,:,:, 1:])(fake_abgr)
     
@@ -76,7 +78,7 @@ def reconstruction_loss(real, fake_abgr, mask_eyes, model_outputs, **weights):
     
     for out in model_outputs[:-1]:
         out_size = out.get_shape().as_list()
-        resized_real = tf.image.resize_images(real, out_size[1:3])
+        resized_real = tf.image.resize_images(real, out_size[1:3]) # todo
         loss_G += weights['w_recon'] * calc_loss(out, resized_real, "l1")    
     return loss_G
 
@@ -108,7 +110,7 @@ def perceptual_loss(real, fake_abgr, distorted, mask_eyes, vggface_feats, **weig
     real_sz224 = tf.image.resize_images(real, [224, 224])
     real_sz224 = Lambda(preprocess_vggface)(real_sz224)
     dist = Beta(0.2, 0.2)
-    lam = dist.sample() # use mixup trick here to reduce foward pass from 2 times to 1.
+    lam = dist.sample() # todo use mixup trick here to reduce foward pass from 2 times to 1.
     mixup = lam*fake_bgr + (1-lam)*fake
     fake_sz224 = tf.image.resize_images(mixup, [224, 224])
     fake_sz224 = Lambda(preprocess_vggface)(fake_sz224)
